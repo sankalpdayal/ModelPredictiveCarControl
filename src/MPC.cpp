@@ -6,8 +6,7 @@
 using CppAD::AD;
 
 // TODO: Set the timestep length and duration
-size_t N = 20;
-double dt = 0.05;
+//Defined in header file. MPC.h
 
 // This value assumes the model presented in the classroom is used.
 //
