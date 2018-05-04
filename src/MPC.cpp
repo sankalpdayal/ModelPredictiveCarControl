@@ -22,7 +22,7 @@ double dt = 0.05;
 const double Lf = 2.67;
 
 // The reference velocity is set to 40 mph.
-double ref_v = 40;
+double ref_v = 45;
 
 // The solver takes all the state variables and actuator
 // variables in a singular vector. Thus, we should to establish
@@ -251,7 +251,7 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   results.push_back(solution.x[delta_start]);
   results.push_back(solution.x[a_start]);
   
-  for (i = 0; i < N; i++) 
+  for (i = 0; i < N-1; i++) 
   {
       results.push_back(solution.x[x_start + i]);
       results.push_back(solution.x[y_start + i]);
