@@ -170,9 +170,6 @@ int main() {
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Yellow line
 
-          msgJson["next_x"] = next_x_vals;
-          msgJson["next_y"] = next_y_vals;
-
 		  double increment = 3;
           int points_to_show = 25;
           for ( int i = 0; i < points_to_show; i++ ) 
@@ -181,6 +178,9 @@ int main() {
             next_x_vals.push_back( x );
             next_y_vals.push_back( polyeval(coeffs, x) );
           }
+		  
+		  msgJson["next_x"] = next_x_vals;
+          msgJson["next_y"] = next_y_vals;
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
