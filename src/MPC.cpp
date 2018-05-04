@@ -36,7 +36,8 @@ size_t epsi_start = cte_start + N;
 size_t delta_start = epsi_start + N;
 size_t a_start = delta_start + N - 1;
 
-double weight[7] = {100.0, 100.0, 1.0, 1.0, 1.0, 200000.0, 1000.0};
+//CTE, angle, velocity, steering use, accel use, gap between steering, gap between acceleration
+double weight[7] = {100.0, 100.0, 1.0, 1.0, 1.0, 1000.0, 1000.0};
 
 class FG_eval {
  public:
