@@ -20,6 +20,7 @@ const double dt = 0.05;
 // presented in the classroom matched the previous radius.
 //
 // This is the length from front to CoG that has a similar radius.
+// Also Defined in header file. MPC.h
 const double Lf = 2.67;
 
 // The reference velocity is set to 40 mph.
