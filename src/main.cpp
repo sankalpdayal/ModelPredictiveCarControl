@@ -91,15 +91,55 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
-
+          double delta= j[1]["steering_angle"];
+          double a = j[1]["throttle"];
+		  
           /*
           * TODO: Calculate steering angle and throttle using MPC.
           *
           * Both are in between [-1, 1].
           *
           */
-          double steer_value;
-          double throttle_value;
+		  
+		  //Remember that the server returns waypoints using the map's 
+		  //coordinate system, which is different than the car's 
+		  //coordinate system. Transforming these waypoints will make 
+		  //it easier to both display them and to calculate the CTE and 
+		  //Epsi values for the model predictive controller.
+		  unsigned int num_of_waypoints = ptsx.size();
+          Eigen::VectorXd ptsx_tf(num_of_waypoints);
+          Eigen::VectorXd ptsy_tf(num_of_waypoints);
+          for (unsigned int i = 0; i < num_of_waypoints; i++ ) {
+            double dX = ptsx[i] - px;
+            double dY = ptsy[i] - py;
+            double minus_psi = -psi;//Flipping sign here and applying transformation
+            ptsx_tf(i) = dX * cos(minus_psi) - dY * sin(minus_psi);
+            ptsy_tf(i) = dX * sin(minus_psi) + dY * cos(minus_psi);
+          }
+		  
+		  //Fitting a 3rd order polynomial
+		  Eigen::VectorXd coeffs = polyfit(ptsx_tf, ptsy_tf, 3);
+		  
+		  // Actuator delay.
+          const double actuatorDelay =  0.1; // 100 milli seconds
+		  
+		  // State after delay.
+		  double cte0 = coeffs[0];//x0 = 0;
+          double epsi0 = -atan(coeffs[1]);//der of 3rd order poly at x = 0.
+		  
+          double x_delay = v * actuatorDelay ;
+          double y_delay = 0;
+          double psi_delay = - ( v * delta * actuatorDelay / mpc.Lf );
+          double v_delay = v + a * actuatorDelay;
+          double cte_delay = cte0 + ( v * sin(epsi0) * actuatorDelay );
+          double epsi_delay = epsi0 + ( v * epsi0 * actuatorDelay / mpc.Lf );
+		  
+		  Eigen::VectorXd state(6);
+		  state << x_delay, y_delay, psi_delay, v_delay, cte_delay, epsi_delay;
+		  auto vars = mpc.Solve(state, coeffs);
+		  
+		  double steer_value = vars[0]/deg2rad(25);;
+          double throttle_value =vars[1];
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
@@ -113,7 +153,13 @@ int main() {
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
+		  for (int t = 0; t < mpc.N; t++)
+		  {
+			  mpc_x_vals.push_back(vars[t*2+2]);
+			  mpc_y_vals.push_back(vars[t*2+3]);
+		  }
 
+		  
           msgJson["mpc_x"] = mpc_x_vals;
           msgJson["mpc_y"] = mpc_y_vals;
 
@@ -127,6 +173,13 @@ int main() {
           msgJson["next_x"] = next_x_vals;
           msgJson["next_y"] = next_y_vals;
 
+		  double increment = 3;
+          int points_to_show = 20;
+          for ( int i = 0; i < points_to_show; i++ ) {
+            double x = increment * i;
+            next_x_vals.push_back( x );
+            next_y_vals.push_back( polyeval(coeffs, x) );
+          }
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
