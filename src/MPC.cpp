@@ -6,8 +6,10 @@
 using CppAD::AD;
 
 // TODO: Set the timestep length and duration
-//Defined in header file. MPC.h
-
+// Also Defined in header file. MPC.h
+const size_t N = 20;
+const double dt = 0.05;
+  
 // This value assumes the model presented in the classroom is used.
 //
 // It was obtained by measuring the radius formed by running the vehicle in the
