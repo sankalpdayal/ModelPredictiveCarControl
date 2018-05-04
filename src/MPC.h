@@ -9,7 +9,7 @@ using namespace std;
 class MPC {
  public:
   MPC();
-  const size_t N = 10;
+  const size_t N = 15;
   const double Lf = 2.67;
   
   virtual ~MPC();
