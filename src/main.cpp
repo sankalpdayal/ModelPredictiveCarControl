@@ -129,7 +129,7 @@ int main() {
 		  
           double x_delay = v * actuatorDelay ;
           double y_delay = 0;
-          double psi_delay = - ( v * delta * actuatorDelay / mpc.Lf );
+          double psi_delay = -v * delta * actuatorDelay / mpc.Lf;
           double v_delay = v + a * actuatorDelay;
           double cte_delay = cte0 + ( v * sin(epsi0) * actuatorDelay );
           double epsi_delay = epsi0 + ( v * epsi0 * actuatorDelay / mpc.Lf );
@@ -174,8 +174,9 @@ int main() {
           msgJson["next_y"] = next_y_vals;
 
 		  double increment = 3;
-          int points_to_show = 20;
-          for ( int i = 0; i < points_to_show; i++ ) {
+          int points_to_show = 25;
+          for ( int i = 0; i < points_to_show; i++ ) 
+		  {
             double x = increment * i;
             next_x_vals.push_back( x );
             next_y_vals.push_back( polyeval(coeffs, x) );
