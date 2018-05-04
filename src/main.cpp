@@ -129,10 +129,10 @@ int main() {
 		  
           double x_delay = v * actuatorDelay ;
           double y_delay = 0;
-          double psi_delay = - ( v * delta * actuatorDelay / Lf );
+          double psi_delay = - ( v * delta * actuatorDelay / mpc.Lf );
           double v_delay = v + a * actuatorDelay;
           double cte_delay = cte0 + ( v * sin(epsi0) * actuatorDelay );
-          double epsi_delay = epsi0 + ( v * epsi0 * actuatorDelay / Lf );
+          double epsi_delay = epsi0 + ( v * epsi0 * actuatorDelay / mpc.Lf );
 		  
 		  Eigen::VectorXd state(6);
 		  state << x_delay, y_delay, psi_delay, v_delay, cte_delay, epsi_delay;
@@ -153,7 +153,7 @@ int main() {
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Green line
-		  for (int t = 0; t < N; t++)
+		  for (int t = 0; t < mpc.N; t++)
 		  {
 			  mpc_x_vals.push_back(vars[t*2+2]);
 			  mpc_y_vals.push_back(vars[t*2+3]);
