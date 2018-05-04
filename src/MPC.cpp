@@ -22,7 +22,7 @@ double dt = 0.05;
 const double Lf = 2.67;
 
 // The reference velocity is set to 40 mph.
-double ref_v = 50;
+double ref_v = 45;
 
 // The solver takes all the state variables and actuator
 // variables in a singular vector. Thus, we should to establish
@@ -37,7 +37,7 @@ size_t delta_start = epsi_start + N;
 size_t a_start = delta_start + N - 1;
 
 //CTE, angle, velocity, steering use, accel use, gap between steering, gap between acceleration
-double weight[7] = {1000.0, 1000.0, 1.0, 1.0, 1.0, 250000.0, 10.0};
+double weight[7] = {100.0, 100.0, 1.0, 1.0, 1.0, 250000.0, 10.0};
 
 class FG_eval {
  public:
