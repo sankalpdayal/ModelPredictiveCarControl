@@ -63,6 +63,7 @@ These model paramters prediced after latency are fed to the mpc model to get the
 Following modifications are done in the code to implemented all the above discussed functionalities.
 
 `Main.cpp`
+
 	1. Added variables to read steering angle and acceleration from json objects.
 	2. Implementated transformation of way points in the car coordinate system.
 	3. Called polyfit function to fit a 3rd order polynomial to the way points and get the coefficients.
@@ -73,6 +74,7 @@ Following modifications are done in the code to implemented all the above discus
 	8. Evaluted 3rd order polynomial at different incremental x positions and passed these x,y positions to be displayed as yellow markers.
 	
 `MPC.cpp`
+
 	1. Set the timestep length and duration
 	2. Set the reference velocity
 	3. Set weights and array indeces for different model parameters.
@@ -81,13 +83,16 @@ Following modifications are done in the code to implemented all the above discus
 	6. Also in `MPC::Solve()` stored the results for actuation and predicted x,y positions and returned the results.
 
 `MPC.h`
+
 	1. Set the timestep length and car turning radius. These are same as defined in `MPC.cpp`
 	
 ## Simulation
 I found that the results are sensitive to the mode of simulater. I have chosen screen as 640 x 480 and graphics as fastest. The final commited model and chosen weights enabled the car to remain on track very effectively even at speed of 50 mph. 
 Also I noticed that during recording, the PC was getting stuck and hence it was affecting the navigation of the car and hence performance was little poorer when recording was happeneing in background. 
 Following video shows how the car navigated with the final chosen parameters. 
+
 [![Results of PID Run](http://img.youtube.com/vi/SYyyJdl0uJo/0.jpg)](http://www.youtube.com/watch?v=SYyyJdl0uJo)
+
 It can be observed that the car was able to remain on track thoughout the run.
 
 ## Scope of Improvement
