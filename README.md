@@ -4,6 +4,10 @@ Self-Driving Car Engineer Nanodegree Program
 ---
 
 ## Project Introduction
+The aim of the project is to drive a car in a simulator by taking current state of car and new few way points and obtaining ideal throttle and steering values such that car is able to navigate without going off road. The idea is 
+to use method of Model Predictive Car Control. In this we use the cars turning radius and create a model of car behavior for given set of actuations and then using this model obtain ideal values of actuations by defining a cost function.
+The cost function incorporates the cross track error, orientation error, target speed and values and changes in these values in actuation.
+
 
 #### Submission
 This repository contains all the code needed to complete the Model Predictivve Control for Car project
