@@ -62,8 +62,7 @@ These model paramters prediced after latency are fed to the mpc model to get the
 
 Following modifications are done in the code to implemented all the above discussed functionalities.
 
-`Main.cpp`
-
+1. `Main.cpp`
 	1. Added variables to read steering angle and acceleration from json objects.
 	2. Implementated transformation of way points in the car coordinate system.
 	3. Called polyfit function to fit a 3rd order polynomial to the way points and get the coefficients.
@@ -73,8 +72,7 @@ Following modifications are done in the code to implemented all the above discus
 	7. Passed the predicted positions of car to be displayed as green markers.
 	8. Evaluted 3rd order polynomial at different incremental x positions and passed these x,y positions to be displayed as yellow markers.
 	
-`MPC.cpp`
-
+2. `MPC.cpp`
 	1. Set the timestep length and duration
 	2. Set the reference velocity
 	3. Set weights and array indeces for different model parameters.
@@ -82,8 +80,7 @@ Following modifications are done in the code to implemented all the above discus
 	5. In `MPC::Solve()` using the input state, initialized the variables and set upper and lower bounds for variables and constraints.  
 	6. Also in `MPC::Solve()` stored the results for actuation and predicted x,y positions and returned the results.
 
-`MPC.h`
-
+3. `MPC.h`
 	1. Set the timestep length and car turning radius. These are same as defined in `MPC.cpp`
 	
 ## Simulation
